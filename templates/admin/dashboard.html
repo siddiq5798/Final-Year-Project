@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:#f8f8f8;color:#111}
+
+    /* TOPBAR */
+    .topbar{
+      background:#fff;
+      padding:18px 70px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #eee;
+    }
+    .brand{font-size:18px;font-weight:600}
+    .nav{display:flex;gap:12px}
+    .btn{
+      padding:10px 18px;
+      border-radius:22px;
+      font-size:13px;
+      font-weight:500;
+      text-decoration:none;
+      border:1px solid #ddd;
+      background:#fff;
+      color:#111;
+      cursor:pointer;
+    }
+    .btn.primary{background:#000;color:#ffb703;border-color:#000}
+    .btn.warn{background:#ffb703;color:#000;border-color:#ffb703}
+
+    /* LAYOUT */
+    .container{max-width:1200px;margin:auto;padding:30px 70px 60px}
+
+    h1{font-size:26px;font-weight:600}
+    p.sub{font-size:13px;color:#666;margin-top:6px}
+
+    /* STATS */
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin:28px 0;
+    }
+    .stat-card{
+      background:#fff;
+      border-radius:26px;
+      padding:22px;
+      box-shadow:0 18px 50px rgba(0,0,0,.08);
+    }
+    .stat-card span{font-size:12px;color:#666}
+    .stat-card h2{font-size:28px;margin-top:6px}
+
+    /* TREND */
+    .trend{
+      background:#fff;
+      border-radius:26px;
+      padding:26px;
+      box-shadow:0 18px 50px rgba(0,0,0,.08);
+      margin-bottom:30px;
+    }
+    .trend-bars{
+      display:flex;
+      align-items:flex-end;
+      gap:14px;
+      height:120px;
+      margin-top:20px;
+    }
+    .bar{
+      flex:1;
+      background:#ffb703;
+      border-radius:12px 12px 0 0;
+      opacity:.85;
+    }
+
+    /* ACTIONS */
+    .actions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-bottom:30px;
+    }
+    .action-card{
+      background:#fff;
+      border-radius:26px;
+      padding:26px;
+      box-shadow:0 18px 50px rgba(0,0,0,.08);
+    }
+    .action-card h3{font-size:18px;margin-bottom:6px}
+    .action-card p{font-size:13px;color:#666;margin-bottom:14px}
+
+    /* TABLE */
+    .card{
+      background:#fff;
+      border-radius:26px;
+      box-shadow:0 18px 50px rgba(0,0,0,.08);
+      overflow:hidden;
+      margin-bottom:26px;
+    }
+    .card-head{
+      padding:16px 20px;
+      border-bottom:1px solid #f0f0f0;
+      display:flex;
+      justify-content:space-between;
+    }
+    .badge{
+      background:#000;
+      color:#ffb703;
+      padding:6px 14px;
+      border-radius:18px;
+      font-size:12px;
+    }
+
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:14px 16px;font-size:13px;border-bottom:1px solid #f2f2f2}
+    th{text-transform:uppercase;font-size:12px;color:#666}
+    .empty{padding:26px;font-size:13px;color:#666}
+
+    /* FLASH */
+    .flash-wrap{margin:16px 0}
+    .flash{
+      padding:12px 14px;
+      border-radius:14px;
+      font-size:13px;
+      margin-bottom:12px;
+    }
+    .flash.success{
+      background:#d1fae5;border:1px solid #10b981;color:#065f46
+    }
+    .flash.warning{
+      background:#fef3c7;border:1px solid #f59e0b;color:#92400e
+    }
+    .flash.danger{
+      background:#fee2e2;border:1px solid #ef4444;color:#7f1d1d
+    }
+    .flash.info{
+      background:#e5e7eb;border:1px solid #9ca3af;color:#111827
+    }
+
+    @media(max-width:900px){
+      .container{padding:22px 18px}
+      .topbar{padding:18px}
+      .stats,.actions{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">Admin Panel</div>
+  <div class="nav">
+    <a class="btn primary" href="/admin/dashboard">Dashboard</a>
+    <a class="btn" href="/logout">Logout</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <h1>System Overview</h1>
+  <p class="sub">Administrative control and monitoring</p>
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-wrap">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <span>Total Hospitals</span>
+      <h2>{{ hospitals|length }}</h2>
+    </div>
+    <div class="stat-card">
+      <span>Total Patients</span>
+      <h2>{{ patients|length }}</h2>
+    </div>
+    <div class="stat-card">
+      <span>Total Users</span>
+      <h2>{{ hospitals|length + patients|length }}</h2>
+    </div>
+    <div class="stat-card">
+      <span>System Status</span>
+      <h2>Active</h2>
+    </div>
+  </div>
+
+  <!-- TREND -->
+  <div class="trend">
+    <h3>User Growth Trend</h3>
+    <p class="sub">Recent onboarding activity (visual indicator)</p>
+    <div class="trend-bars">
+      <div class="bar" style="height:40%"></div>
+      <div class="bar" style="height:55%"></div>
+      <div class="bar" style="height:65%"></div>
+      <div class="bar" style="height:80%"></div>
+      <div class="bar" style="height:95%"></div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <div class="action-card">
+      <h3>Create Users</h3>
+      <p>Register hospitals and patients.</p>
+      <a class="btn primary" href="/admin/create_users">Open</a>
+    </div>
+    <div class="action-card">
+      <h3>View Hospitals</h3>
+      <p>Manage registered hospitals.</p>
+      <a class="btn warn" href="/admin/hospitals">View</a>
+    </div>
+    <div class="action-card">
+      <h3>View Patients</h3>
+      <p>Manage registered patients.</p>
+      <a class="btn warn" href="/admin/patients">View</a>
+    </div>
+  </div>
+
+  <!-- RECENT HOSPITALS -->
+  <div class="card">
+    <div class="card-head">
+      <div class="badge">Recent Hospitals</div>
+    </div>
+
+    {% if hospitals %}
+      <table>
+        <thead>
+          <tr><th>#</th><th>Name</th><th>ID</th></tr>
+        </thead>
+        <tbody>
+          {% for h in hospitals[:5] %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ h.name }}</td>
+            <td>{{ h.id }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty">No hospitals registered.</div>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- AUTO DISMISS FLASH -->
+<script>
+  setTimeout(() => {
+    document.querySelectorAll(".flash").forEach(el => {
+      el.style.transition = "opacity 0.5s ease";
+      el.style.opacity = "0";
+      setTimeout(() => el.remove(), 500);
+    });
+  }, 3000);
+</script>
+
+</body>
+</html>

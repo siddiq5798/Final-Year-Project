@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hospital | Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f8f8f8;
+      color: #111;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: #ffffff;
+      padding: 18px 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 22px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: #000;
+      color: #ffb703;
+      border-color: #000;
+    }
+
+    .btn.warn {
+      background: #ffb703;
+      color: #000;
+      border-color: #ffb703;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 70px 60px;
+    }
+
+    .header {
+      margin-bottom: 26px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+      padding: 22px;
+    }
+
+    .stat-card span {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .stat-card h2 {
+      margin-top: 8px;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    /* Actions */
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .action-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+      padding: 26px;
+    }
+
+    .action-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .action-card p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    .action-card a {
+      display: inline-block;
+    }
+
+    /* Table Card */
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      background: #000;
+      color: #ffb703;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      font-size: 13px;
+      text-align: left;
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #666;
+    }
+
+    tr:hover td {
+      background: #fffdf6;
+    }
+
+    .empty {
+      padding: 28px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        padding: 18px;
+      }
+      .container {
+        padding: 24px 18px 50px;
+      }
+      .stats, .actions {
+        grid-template-columns: 1fr;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">Hospital Panel</div>
+    <div class="nav">
+      <a class="btn" href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+
+    <div class="header">
+      <h1>Hospital Dashboard</h1>
+      <p>Manage encrypted medical records and patient access requests.</p>
+    </div>
+
+
+
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="flash">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <span>Total Records</span>
+        <h2>{{ records|length if records else 0 }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Access Requests</span>
+        <h2>{{ requests|length if requests else 0 }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Pending Requests</span>
+        <h2>
+          {{ requests|selectattr('status','equalto','PENDING')|list|length if requests else 0 }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <div class="action-card">
+        <h3>Upload Record</h3>
+        <p>Encrypt and upload a new medical record for a patient.</p>
+        <a class="btn primary" href="/hospital/upload">Upload</a>
+      </div>
+
+      <div class="action-card">
+        <h3>View Records</h3>
+        <p>See all medical records uploaded by your hospital.</p>
+        <a class="btn warn" href="/hospital/records">Records</a>
+      </div>
+
+      <div class="action-card">
+        <h3>Access Requests</h3>
+        <p>Approve or reject patient requests for records.</p>
+        <a class="btn primary" href="/hospital/requests">Requests</a>
+      </div>
+    </div>
+
+    <!-- Recent Records -->
+    <div class="card">
+      <div class="card-head">
+        <div class="badge">Recent Medical Records</div>
+      </div>
+
+      {% if records and records|length > 0 %}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Patient ID</th>
+              <th>Uploaded At</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in records[:5] %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ record.title }}</td>
+                <td>{{ record.patient_id }}</td>
+                <td>
+                  {{ record.uploaded_at.strftime('%d %b %Y, %I:%M %p') if record.uploaded_at else '-' }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty">No records uploaded yet.</div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Secure Medical Records System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f9fafb;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 60px;
+            background: #ffffff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .logo span {
+            color: #facc15;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: #facc15;
+        }
+
+        /* ================= LOGIN CONTAINER ================= */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            padding: 40px 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 260px;
+            height: 260px;
+            background: #facc15;
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .login-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* ================= FLASH ================= */
+        .flash {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .success {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+
+        .danger {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #7f1d1d;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .info {
+            background: #e5e7eb;
+            border: 1px solid #9ca3af;
+            color: #111827;
+        }
+
+        /* ================= FORM ================= */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #facc15;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 25px;
+            border: none;
+            background: #111;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* ================= NOTE ================= */
+        .login-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .login-note span {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+    <div class="logo">Secure<span>Med</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+    </div>
+</div>
+
+<!-- ================= LOGIN ================= -->
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <div class="login-title">Welcome Back</div>
+        <div class="login-subtitle">
+            Login to access the Secure Medical Records System
+        </div>
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- LOGIN FORM -->
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <!-- NOTE -->
+        <div class="login-note">
+            <span>Note:</span> Verification codes are required only for record access approval,
+            not for login.
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    © 2026 Secure Medical Records System | Academic Project
+</footer>
+
+<!-- ================= AUTO DISMISS FLASH ================= -->
+<script>
+  setTimeout(() => {
+    document.querySelectorAll(".flash").forEach(el => {
+      el.style.transition = "opacity 0.5s ease";
+      el.style.opacity = "0";
+      setTimeout(() => el.remove(), 500);
+    });
+  }, 3000);
+</script>
+
+</body>
+</html>

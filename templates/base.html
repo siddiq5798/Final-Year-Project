@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Medical Records System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #111;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 60px;
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .logo span {
+            color: #facc15;
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #facc15;
+        }
+
+        .login-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: #111;
+            color: #fff !important;
+        }
+
+        /* ================= FLASH MESSAGES ================= */
+        .flash-container {
+            padding: 15px 60px;
+        }
+
+        .flash {
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .success { background: #d1fae5; }
+        .danger  { background: #fee2e2; }
+        .warning { background: #fef3c7; }
+        .info    { background: #e5e7eb; }
+
+        /* ================= HERO SECTION ================= */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            padding: 80px 60px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 450px;
+            height: 450px;
+            background: #facc15;
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+
+        .hero-text h1 {
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 span {
+            background: #111;
+            color: #facc15;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .hero-text p {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.7;
+            max-width: 520px;
+        }
+
+        .hero-actions {
+            margin-top: 30px;
+        }
+
+        .hero-actions a {
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 12px 26px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .primary-btn {
+            background: #111;
+            color: #fff;
+        }
+
+        .secondary-btn {
+            border: 2px solid #111;
+            color: #111;
+        }
+
+        /* ================= HERO IMAGE ================= */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .visual-card {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: #facc15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-card img {
+            width: 80%;
+            border-radius: 50%;
+            background: #fff;
+            padding: 20px;
+        }
+
+        /* ================= FEATURES ================= */
+        .features {
+            padding: 70px 60px;
+            background: #f9fafb;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-box {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #facc15;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+
+        .feature-box h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .feature-box p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            padding: 30px 60px;
+            text-align: center;
+            background: #111;
+            color: #bbb;
+            font-size: 13px;
+        }
+
+        @media(max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+    <div class="logo">Secure<span>Med</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="#features">Features</a>
+        <a href="/login" class="login-btn">Login</a>
+    </div>
+</div>
+
+<!-- ================= FLASH MESSAGES ================= -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>
+            Secure <span>Medical</span><br>
+            Records Management
+        </h1>
+        <p>
+            A centralized, encrypted and role-based medical record platform
+            ensuring secure data sharing between hospitals and patients
+            with complete access control and auditability.
+        </p>
+
+        <div class="hero-actions">
+            <a href="/login" class="primary-btn">Get Started</a>
+            <a href="#features" class="secondary-btn">Learn More</a>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="visual-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Medical Security">
+        </div>
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="features" id="features">
+    <h2>Core System Features</h2>
+
+    <div class="features-grid">
+        <div class="feature-box">
+            <div class="feature-icon">🔐</div>
+            <h4>AES Encryption</h4>
+            <p>Medical records are encrypted at rest using AES to ensure data confidentiality.</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">🏥</div>
+            <h4>Hospital Verification</h4>
+            <p>Hospitals approve access requests only after patient identity verification.</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">👤</div>
+            <h4>Patient Control</h4>
+            <p>Patients request records and receive only authorized encrypted data.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    © 2026 Secure Medical Records System | Academic Project
+</footer>
+
+</body>
+</html>
